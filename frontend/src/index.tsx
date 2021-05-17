@@ -14,7 +14,6 @@ ReactDOM.render(
         <NormalizeCss/>
         <GlobalStyles/>
         <Provider store={store}>
-
             <App/>
         </Provider>
     </ThemeProvider>,

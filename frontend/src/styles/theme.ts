@@ -28,8 +28,8 @@ export const theme = {
             700: '#616161',
             800: '#424242',
         },
-        black: '#2b2b2b',
-        white: '#f6f6f6',
+        black: '#000000',
+        white: '#ffffff',
         success: '#6bff2b',
         error: '#ff2b2b',
         transparent: {
