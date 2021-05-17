@@ -1,7 +1,7 @@
 import React, {ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, KeyboardEvent, TextareaHTMLAttributes} from "react";
 import styled, {StyledComponentProps} from "styled-components/macro";
 
-export const Input: React.FC<InputTextPropsT> = (props) => {
+export const Input: React.FC<InputTextPropsT<DefaultInputT | DefaultTextareaT>> = (props) => {
 
     const {
         onChange,
@@ -13,14 +13,14 @@ export const Input: React.FC<InputTextPropsT> = (props) => {
         ...restProps
     } = props
 
-    const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChangeCallback = (e: ChangeEvent<HTMLInputElement> & ChangeEvent<HTMLTextAreaElement>) => {
         onChange
         && onChange(e);
 
         onChangeText && onChangeText(e.currentTarget.value);
     }
 
-    const onKeyPressCallback = (e: KeyboardEvent<HTMLInputElement>) => {
+    const onKeyPressCallback = (e: KeyboardEvent<HTMLInputElement> & ChangeEvent<HTMLTextAreaElement>) => {
         onKeyPress && onKeyPress(e);
 
         e.key === "Enter"
@@ -94,10 +94,10 @@ const StyledError = styled.div`
 `
 
 // Types
-type DefaultInputPropsT = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+type DefaultInputT = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 type DefaultTextareaT = DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>;
 
-type InputTextPropsT = DefaultInputPropsT & DefaultTextareaT & {
+type InputTextPropsT<T> = T & {
     isTextarea?: boolean
     onChangeText?: (value: string) => void
     onEnter?: () => void
