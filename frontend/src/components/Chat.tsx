@@ -1,8 +1,9 @@
-import React, {ChangeEvent, KeyboardEvent, useEffect, useState} from 'react'
+import React, {ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState} from 'react'
 import queryString from 'query-string'
 import io from 'socket.io-client'
 import {InfoBar} from './InfoBar'
 import {ChatInput} from './ChatInput'
+import {Messages} from './Messages'
 
 let socket: ReturnType<typeof io>
 
@@ -17,14 +18,12 @@ export const Chat: React.FC<PropsT> = props => {
     const [name, setName] = useState('')
     const [room, setRoom] = useState('')
     const [message, setMessage] = useState('')
-    const [messages, setMessages] = useState<Array<string>>([])
+    const [messages, setMessages] = useState<Array<MessageT>>([])
 
     useEffect(() => {
         const {name, room} = queryString.parse(location.search)
 
         socket = io(ENDPOINT, {transports: ['websocket']})
-
-        console.log(socket)
 
         setName(name as string)
         setRoom(room as string)
@@ -46,7 +45,7 @@ export const Chat: React.FC<PropsT> = props => {
         })
     }, [messages])
 
-    const sendMessage = (event: KeyboardEvent<HTMLInputElement>) => {
+    const sendMessage = (event: KeyboardEvent<HTMLInputElement> | MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
 
         if(message) {
@@ -54,19 +53,12 @@ export const Chat: React.FC<PropsT> = props => {
         }
     }
 
-    const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
-        setMessage(event.target.value)
-    }
-
-    const onKeyPressInput = (event: KeyboardEvent<HTMLInputElement>) => {
-        return event.key === 'Enter' ? sendMessage(event) : null
-    }
-
     return (
         <div>
             <div>
                 <InfoBar room={room}/>
-                <ChatInput message={message} onChangeInput={onChangeInput} onKeyPressInput={onKeyPressInput}/>
+                <Messages messages={messages} name={name}/>
+                <ChatInput message={message} setMessage={setMessage} sendMessage={sendMessage}/>
             </div>
         </div>
 
@@ -76,4 +68,9 @@ export const Chat: React.FC<PropsT> = props => {
 // Types
 type PropsT = {
     location: any //!I! change any
+}
+
+export type MessageT = {
+    user: string
+    text: string
 }

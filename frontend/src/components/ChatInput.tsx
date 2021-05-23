@@ -1,12 +1,20 @@
-import React, {ChangeEvent, KeyboardEvent} from 'react'
+import React, {ChangeEvent, KeyboardEvent, MouseEvent} from 'react'
 
 export const ChatInput: React.FC<PropsT> = props => {
 
     const {
         message,
-        onChangeInput,
-        onKeyPressInput
+        setMessage,
+        sendMessage
     } = props
+
+    const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
+        setMessage(event.target.value)
+    }
+
+    const onKeyPressInput = (event: KeyboardEvent<HTMLInputElement>) => {
+        return event.key === 'Enter' ? sendMessage(event) : null
+    }
 
     return (
         <form>
@@ -15,7 +23,7 @@ export const ChatInput: React.FC<PropsT> = props => {
                    value={message}
                    onChange={onChangeInput}
                    onKeyPress={onKeyPressInput}/>
-            {/*<button onClick={(event) => event.preventDefault()}>Send</button>*/}
+            <button onClick={sendMessage}>Send</button>
         </form>
     )
 }
@@ -23,6 +31,6 @@ export const ChatInput: React.FC<PropsT> = props => {
 // Types
 type PropsT = {
     message: string
-    onChangeInput: (event: ChangeEvent<HTMLInputElement>) => void
-    onKeyPressInput: (event: KeyboardEvent<HTMLInputElement>) => void | null
+    setMessage: (value: string) => void
+    sendMessage: (event: KeyboardEvent<HTMLInputElement> | MouseEvent<HTMLButtonElement>) => void | null
 }
