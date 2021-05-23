@@ -1,7 +1,6 @@
-import {createGlobalStyle} from "styled-components/macro";
-import {ThemeType} from "./theme";
+import {createGlobalStyle} from 'styled-components/macro'
 
-export const GlobalStyles = createGlobalStyle<{ theme: ThemeType}>`
+export const GlobalStyles = createGlobalStyle`
   // Import the main style from theme
   @import url('${({theme}) => theme.font.source}');
 
