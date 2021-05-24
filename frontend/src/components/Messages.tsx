@@ -1,8 +1,8 @@
 import React from 'react'
 import ScrollToBottom from 'react-scroll-to-bottom'
 import {Message} from './Message'
-import {MessageT} from './Chat'
 import styled from 'styled-components/macro'
+import {MessageT} from '../bll/chat-reducer'
 
 export const Messages: React.FC<PropsT> = props => {
 

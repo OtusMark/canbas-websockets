@@ -1,7 +1,7 @@
 import React from 'react'
-import {MessageT} from './Chat'
 import ReactEmoji from 'react-emoji'
 import styled from 'styled-components/macro'
+import {MessageT} from '../bll/chat-reducer'
 
 export const Message: React.FC<PropsT> = props => {
 

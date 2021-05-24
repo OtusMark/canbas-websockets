@@ -1,4 +1,4 @@
-import React, {KeyboardEvent, MouseEvent, useCallback, useEffect, useState} from 'react'
+import React, {KeyboardEvent, MouseEvent, useEffect, useState} from 'react'
 import queryString from 'query-string'
 import io from 'socket.io-client'
 import {InfoBar} from './InfoBar'
@@ -6,6 +6,9 @@ import {ChatInterface} from './ChatInterface'
 import {Messages} from './Messages'
 import styled from 'styled-components/macro'
 import {Container} from '../styles/layout/Container'
+import {addMessage, MessageT} from '../bll/chat-reducer'
+import {useDispatch, useSelector} from 'react-redux'
+import {StateType} from '../bll/store'
 
 let socket: ReturnType<typeof io>
 
@@ -15,12 +18,14 @@ export const Chat: React.FC<PropsT> = props => {
         location
     } = props
 
+    const messages = useSelector<StateType, Array<MessageT>>(state => state.chat.messages)
+    const dispatch = useDispatch()
+
     const ENDPOINT = process.env.ENDPOINT || 'localhost:5000'
 
     const [name, setName] = useState('')
     const [room, setRoom] = useState('')
     const [message, setMessage] = useState('')
-    const [messages, setMessages] = useState<Array<MessageT>>([])
 
     useEffect(() => {
         const {name, room} = queryString.parse(location.search)
@@ -42,10 +47,11 @@ export const Chat: React.FC<PropsT> = props => {
     }, [ENDPOINT, location.search])
 
     useEffect(() => {
-        socket.on('message', (message) => {
-            setMessages([...messages, message])
+        socket.on('message', (message: MessageT) => {
+            dispatch(addMessage(message.user, message.text))
+            // setMessages([...messages, message])
         })
-    }, [messages])
+    }, [])
 
     const sendMessage = (event: KeyboardEvent<HTMLInputElement> | MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
@@ -78,9 +84,4 @@ const ChatWrapper = styled.div`
 // Types
 type PropsT = {
     location: any //!I! change any
-}
-
-export type MessageT = {
-    user: string
-    text: string
 }
