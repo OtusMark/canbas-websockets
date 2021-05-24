@@ -50,10 +50,6 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
-  body {
-    background-color: ${({theme}) => theme.color.white};
-  }
-
   h1, h2, h3, h4, h5, h6, p {
     margin: 0;
     padding: 0;
@@ -63,11 +59,15 @@ export const GlobalStyles = createGlobalStyle`
     font-family: ${({theme}) => theme.font.family.montserrat};
     font-size: ${({theme}) => theme.font.size.b5};
     font-weight: 700;
+
+    color: ${({theme}) => theme.color.white};
   }
   
   h2 {
     font-size: ${({theme}) => theme.font.size.b2};
     font-weight: 300;
+
+    color: ${({theme}) => theme.color.white};
   }
 
   a {

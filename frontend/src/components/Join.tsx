@@ -1,5 +1,7 @@
 import React, {ChangeEvent, MouseEvent, useState} from 'react'
 import {Link} from 'react-router-dom'
+import styled from 'styled-components/macro'
+import { Button } from '../styles/uiElements/Button'
 
 export const Join = () => {
     const [name, setName] = useState('')
@@ -18,15 +20,55 @@ export const Join = () => {
     }
 
     return (
-        <div>
-            <div>
-                <h1>Join</h1>
-                <div><input placeholder='Name' type='text' onChange={onChangeName}/></div>
-                <div><input placeholder='Room' type='text' onChange={onChangeRoom}/></div>
+        <JoinWrapper>
+            <JoinInner>
+                <Heading>Join</Heading>
+                <div>
+                    <JoinInput placeholder='Name' type='text' onChange={onChangeName}/>
+                </div>
+                <div>
+                    <JoinInput placeholder='Room' type='text' onChange={onChangeRoom}/>
+                </div>
                 <Link onClick={onClickLink} to={`/chat?name=${name}&room=${room}`}>
-                    <button type='submit'>Sign In</button>
+                    <Button type='submit'>Sign In</Button>
                 </Link>
-            </div>
-        </div>
+            </JoinInner>
+        </JoinWrapper>
     )
 }
+
+// Styles
+const JoinWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  height: 100vh;
+
+  text-align: center;
+`
+
+const JoinInner = styled.div`
+  width: 20%;
+  
+  @media (max-width: ${({theme}) => theme.mediaQuery.tabletMax}) {
+    width: 50%;
+  }
+
+  @media (max-width: ${({theme}) => theme.mediaQuery.mobileMax}) {
+    width: 80%;
+  }
+`
+
+const Heading = styled.h1`
+  padding-bottom: .8rem;
+`
+
+const JoinInput = styled.input`
+  margin-bottom: 1rem;
+  padding: 1rem 1.2rem;
+  
+  width: 100%;
+  
+  border: none;
+`

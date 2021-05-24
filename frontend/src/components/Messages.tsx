@@ -2,6 +2,7 @@ import React from 'react'
 import ScrollToBottom from 'react-scroll-to-bottom'
 import {Message} from './Message'
 import {MessageT} from './Chat'
+import styled from 'styled-components/macro'
 
 export const Messages: React.FC<PropsT> = props => {
 
@@ -11,13 +12,20 @@ export const Messages: React.FC<PropsT> = props => {
     } = props
 
     return (
-        <ScrollToBottom>
+        <StyledScrollToBottom>
             {messages.map((message, i) => <div key={i}>
                 <Message message={message} name={name}/>
             </div>)}
-        </ScrollToBottom>
+        </StyledScrollToBottom>
     )
 }
+
+// Styles
+const StyledScrollToBottom = styled(ScrollToBottom)`
+  flex: auto;
+  padding: 1rem;
+  overflow: auto;
+`
 
 // Types
 type PropsT = {

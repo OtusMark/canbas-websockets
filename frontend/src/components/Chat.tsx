@@ -1,9 +1,11 @@
-import React, {ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState} from 'react'
+import React, {KeyboardEvent, MouseEvent, useCallback, useEffect, useState} from 'react'
 import queryString from 'query-string'
 import io from 'socket.io-client'
 import {InfoBar} from './InfoBar'
-import {ChatInput} from './ChatInput'
+import {ChatInterface} from './ChatInterface'
 import {Messages} from './Messages'
+import styled from 'styled-components/macro'
+import {Container} from '../styles/layout/Container'
 
 let socket: ReturnType<typeof io>
 
@@ -33,7 +35,7 @@ export const Chat: React.FC<PropsT> = props => {
         })
 
         return () => {
-            socket.emit('disconnect')
+            socket.emit('disconnectChat')
 
             socket.off()
         }
@@ -48,22 +50,30 @@ export const Chat: React.FC<PropsT> = props => {
     const sendMessage = (event: KeyboardEvent<HTMLInputElement> | MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
 
-        if(message) {
+        if (message) {
             socket.emit('sendMessage', message, () => setMessage(''))
         }
     }
 
     return (
-        <div>
-            <div>
+        <ChatWrapper>
+            <Container>
                 <InfoBar room={room}/>
                 <Messages messages={messages} name={name}/>
-                <ChatInput message={message} setMessage={setMessage} sendMessage={sendMessage}/>
-            </div>
-        </div>
+                <ChatInterface message={message} setMessage={setMessage} sendMessage={sendMessage}/>
+            </Container>
+        </ChatWrapper>
 
     )
 }
+
+// Styles
+const ChatWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`
 
 // Types
 type PropsT = {

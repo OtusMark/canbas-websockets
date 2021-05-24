@@ -7,6 +7,7 @@ declare module 'styled-components' {
 
 const primaryColor = '#30d95e'
 const secondaryColor = '#40bcff'
+const tertiaryColor = '#e240ff'
 
 export const theme = {
     variable: {
@@ -15,13 +16,18 @@ export const theme = {
     color: {
         primary: {
             main: primaryColor,
-            light: `${lighten(0.1, primaryColor)}`,
-            dark: `${darken(0.1, primaryColor)}`
+            light: `${lighten(0.2, primaryColor)}`,
+            dark: `${darken(0.2, primaryColor)}`
         },
         secondary: {
             main: secondaryColor,
-            light: `${lighten(0.1, secondaryColor)}`,
-            dark: `${darken(0.1, secondaryColor)}`
+            light: `${lighten(0.2, secondaryColor)}`,
+            dark: `${darken(0.2, secondaryColor)}`
+        },
+        tertiary: {
+            main: tertiaryColor,
+            light: `${lighten(0.2, tertiaryColor)}`,
+            dark: `${darken(0.2, tertiaryColor)}`
         },
         grey: {
             100: '#f5f5f5',
