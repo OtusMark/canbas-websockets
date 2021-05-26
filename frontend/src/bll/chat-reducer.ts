@@ -3,9 +3,22 @@ const initialState = {
     name: '',
     messages: [] as Array<MessageT>,
 }
-
 export const chatReducer = (state = initialState, action: ActionsT) => {
     switch (action.type) {
+        case 'chat/joinChat': {
+            return {
+                ...state,
+                room: action.payload.room,
+                name: action.payload.name
+            }
+        }
+        case 'chat/quitChat': {
+            return {
+                ...state,
+                room: '',
+                name: ''
+            }
+        }
         case 'chat/addMessage': {
             return {
                 ...state,
@@ -22,10 +35,16 @@ export const chatReducer = (state = initialState, action: ActionsT) => {
 }
 
 // Action creators
+export const joinChat = (room: string, name: string) => ({type: 'chat/joinChat', payload: {room, name}} as const)
+export const quitChat = () => ({type: 'chat/quitChat'} as const)
 export const addMessage = (user: string, text: string) => ({type: 'chat/addMessage', payload: {user, text}} as const)
 
 // Types
-type ActionsT = ReturnType<typeof addMessage>
+type ActionsT = ReturnType<
+    typeof joinChat |
+    typeof quitChat |
+    typeof addMessage
+    >
 
 export type MessageT = {
     user: string

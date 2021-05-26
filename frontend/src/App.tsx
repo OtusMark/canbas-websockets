@@ -1,25 +1,20 @@
 import React from 'react'
-import {BrowserRouter, Route} from 'react-router-dom'
+import {BrowserRouter} from 'react-router-dom'
 import {Join} from './components/Join'
 import {Chat} from './components/Chat'
 import styled from 'styled-components/macro'
+import {useSelector} from 'react-redux'
+import {AppRootStateT} from './bll/store'
 
 
 export const App = () => {
 
-    // @ts-ignore
-    console.log(React.createContext())
+    const room = useSelector<AppRootStateT, string>(state => state.chat.room)
+    const name = useSelector<AppRootStateT, string>(state => state.chat.name)
 
     return (
         <AppWrapper>
-            <BrowserRouter>
-                <Route path='/' exact>
-                    <Join/>
-                </Route>
-                <Route path='/chat' render={props =>
-                    <Chat {...props}/>
-                }/>
-            </BrowserRouter>
+            { room && name ? <Chat room={room} name={name}/> : <Join/>}
         </AppWrapper>
     )
 }

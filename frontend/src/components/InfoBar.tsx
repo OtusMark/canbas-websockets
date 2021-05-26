@@ -1,18 +1,26 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 import {ReactComponent as CloseIcon} from '../assets/svg/close.svg'
+import {useDispatch} from 'react-redux'
+import {quitChat} from '../bll/chat-reducer'
 
 export const InfoBar: React.FC<PropsT> = props => {
+
+    const dispatch = useDispatch()
 
     const {
         room
     } = props
 
+    const onClickQuitChat = () => {
+        dispatch(quitChat())
+    }
+
     return (
         <InfoBarWrapper>
             <InfoBarInner>
                 <h3>{room}</h3>
-                <a href='/'><InfoBarCloseIcon/></a>
+                <InfoBarCloseIcon onClick={onClickQuitChat}/>
             </InfoBarInner>
         </InfoBarWrapper>
     )
@@ -36,7 +44,7 @@ const InfoBarInner = styled.div`
 
   width: 100%;
 
-  margin: 0 1.5rem;
+  margin: 1.5rem 1.5rem;
 `
 
 const InfoBarCloseIcon = styled(CloseIcon)`

@@ -1,11 +1,14 @@
-import React, {ChangeEvent, MouseEvent, useState} from 'react'
-import {Link} from 'react-router-dom'
+import React, {ChangeEvent, useState} from 'react'
 import styled from 'styled-components/macro'
-import { Button } from '../styles/uiElements/Button'
+import {Button} from '../styles/uiElements/Button'
+import {useDispatch} from 'react-redux'
+import {joinChat} from '../bll/chat-reducer'
 
 export const Join = () => {
     const [name, setName] = useState('')
     const [room, setRoom] = useState('')
+
+    const dispatch = useDispatch()
 
     const onChangeName = (event: ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value)
@@ -15,8 +18,8 @@ export const Join = () => {
         setRoom(event.target.value)
     }
 
-    const onClickLink = (event: MouseEvent<HTMLAnchorElement>) => {
-        return (!name || !room) ? event.preventDefault() : null
+    const onClickJoin = () => {
+        dispatch(joinChat(room, name))
     }
 
     return (
@@ -29,9 +32,7 @@ export const Join = () => {
                 <div>
                     <JoinInput placeholder='Room' type='text' onChange={onChangeRoom}/>
                 </div>
-                <Link onClick={onClickLink} to={`/chat?name=${name}&room=${room}`}>
-                    <Button type='submit'>Sign In</Button>
-                </Link>
+                    <Button onClick={onClickJoin}>Join chat</Button>
             </JoinInner>
         </JoinWrapper>
     )

@@ -11,4 +11,4 @@ const rootReducer = combineReducers({
 export let store = createStore(rootReducer, composeEnhancers(applyMiddleware()))
 
 // Types
-export type StateType = ReturnType<typeof rootReducer>
+export type AppRootStateT = ReturnType<typeof rootReducer>
